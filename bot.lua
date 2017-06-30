@@ -227,34 +227,34 @@ function tdcli_update_callback(data)
 						send(msg.chat_id_, msg.id_, "لیست لینک های ذخیره شده بطورکلی پاکسازی شد.")
 						redis:del("botBOT-IDsavedlinks")
 					end
-				elseif text:match("^(sp) (.*)$") then
-					local matches = text:match("^sp (.*)$")
-					if matches == "sp" then	
+				elseif text:match("^(off) (.*)$") then
+					local matches = text:match("^off (.*)$")
+					if matches == "off" then	
 						redis:set("botBOT-IDmaxjoin", true)
 						redis:set("botBOT-IDoffjoin", true)
 						return send(msg.chat_id_, msg.id_, "ok")
-					elseif matches == "taeed lnk" then	
+					elseif matches == "taeed peyvand" then	
 						redis:set("botBOT-IDmaxlink", true)
 						redis:set("botBOT-IDofflink", true)
 						return send(msg.chat_id_, msg.id_, "ok")
-					elseif matches == "shenasayi lnk" then	
+					elseif matches == "shenasayi peyvand" then	
 						redis:del("botBOT-IDlink")
 						return send(msg.chat_id_, msg.id_, "ok")
 					elseif matches == "addc" then	
 						redis:del("botBOT-IDsavecontacts")
 						return send(msg.chat_id_, msg.id_, "ok")
 					end
-				elseif text:match("^(beg) (.*)$") then
-					local matches = text:match("^beg (.*)$")
+				elseif text:match("^(on) (.*)$") then
+					local matches = text:match("^on (.*)$")
 					if matches == "join" then	
 						redis:del("botBOT-IDmaxjoin")
 						redis:del("botBOT-IDoffjoin")
 						return send(msg.chat_id_, msg.id_, "ok")
-					elseif matches == "taeed lnk" then	
+					elseif matches == "taeed peyvand" then	
 						redis:del("botBOT-IDmaxlink")
 						redis:del("botBOT-IDofflink")
 						return send(msg.chat_id_, msg.id_, "ok")
-					elseif matches == "shenasayi lnk" then	
+					elseif matches == "shenasayi peyvand" then	
 						redis:set("botBOT-IDlink", true)
 						return send(msg.chat_id_, msg.id_, "ok")
 					elseif matches == "addc" then	
@@ -480,7 +480,7 @@ function tdcli_update_callback(data)
 							end
 					end
 					return send(msg.chat_id_,msg.id_,"ok")
-				elseif text:match("^(stu)$") then
+				elseif text:match("^(tanzimat)$") then
 					local s =  redis:get("botBOT-IDoffjoin") and 0 or redis:get("botBOT-IDmaxjoin") and redis:ttl("botBOT-IDmaxjoin") or 0
 					local ss = redis:get("botBOT-IDofflink") and 0 or redis:get("botBOT-IDmaxlink") and redis:ttl("botBOT-IDmaxlink") or 0
 					local msgadd = redis:get("botBOT-IDaddmsg") and "ok" or "not ok"
@@ -494,9 +494,9 @@ function tdcli_update_callback(data)
 					local offlink = redis:get("botBOT-IDofflink") and "not ok" or "ok"
 					local nlink = redis:get("botBOT-IDlink") and "ok" or "not ok"
 					local contacts = redis:get("botBOT-IDsavecontacts") and "ok" or "not ok"
-					local txt = "ajoin "..tostring(offjoin).." - acc lnk "..tostring(offlink).." - tashkhis link "..tostring(nlink).." - answer " .. tostring(autoanswer) .." - saved lnks " .. tostring(links) .. " - dar entezar ozviat " .. tostring(glinks) .. " - " .. tostring(s) .. "s to join - dar entezare taeed " .. tostring(wlinks) .. " - " .. tostring(ss) .. "s ta taeed link mojadad"
+					local txt = "ozviat "..tostring(offjoin).." - taed peyvand "..tostring(offlink).." - shenasayi peyvand "..tostring(nlink).."  - peyvand zakhire " .. tostring(links) .. " - peyvand dar entezar ozviat " .. tostring(glinks) .. " - " .. tostring(s) .. "s ta ozviat
 					return send(msg.chat_id_, 0, txt)
-				elseif text:match("^(chanta)$") or text:match("^(chegadr)$") then
+				elseif text:match("^(vaz)$") or text:match("^(manager)$") then
 					local gps = redis:scard("botBOT-IDgroups")
 					local sgps = redis:scard("botBOT-IDsupergroups")
 					local usrs = redis:scard("botBOT-IDusers")
@@ -511,7 +511,7 @@ function tdcli_update_callback(data)
 					redis:set("botBOT-IDcontacts", naji.total_count_)
 					end, nil)
 					local contacts = redis:get("botBOT-IDcontacts")
-					local text = [[]] .. tostring(sgps) .. [[ ~ ]] .. tostring(gps) .. [[ ~ ]] .. tostring(links) ..[[]]
+					local text = [[(]].. tostring(sgps) ..[[)]]
 					return send(msg.chat_id_, 0, text)
 				elseif (text:match("^(s t) (.*)$") and msg.reply_to_message_id_ ~= 0) then
 					local matches = text:match("^s t (.*)$")
@@ -618,7 +618,7 @@ function tdcli_update_callback(data)
 						status_ = {ID = "ChatMemberStatusLeft"},
 					}, dl_cb, nil)
 					return rem(matches)
-				elseif text:match("^(aa) (%d+)$") then
+				elseif text:match("^(ata) (%d+)$") then
 					local matches = text:match("%d+")
 					local list = {redis:smembers("botBOT-IDgroups"),redis:smembers("botBOT-IDsupergroups")}
 					for a, b in pairs(list) do
