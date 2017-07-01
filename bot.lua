@@ -494,7 +494,7 @@ function tdcli_update_callback(data)
 					local offlink = redis:get("botBOT-IDofflink") and "not ok" or "ok"
 					local nlink = redis:get("botBOT-IDlink") and "ok" or "not ok"
 					local contacts = redis:get("botBOT-IDsavecontacts") and "ok" or "not ok"
-					local txt = "ozviat "..tostring(offjoin).." - taed peyvand "..tostring(offlink).." - shenasayi peyvand "..tostring(nlink).."  - peyvand zakhire " .. tostring(links) .. " - peyvand dar entezar ozviat " .. tostring(glinks) .. " - " .. tostring(s) .. "s ta ozviat
+					local txt = "ozviat "..tostring(offjoin).." - taed peyvand "..tostring(offlink).." - shenasayi peyvand "..tostring(nlink).."  - peyvand zakhire " .. tostring(links) .. " - peyvand dar entezar ozviat " .. tostring(glinks) .. " - " .. tostring(s) .. "s ta ozviat"
 					return send(msg.chat_id_, 0, txt)
 				elseif text:match("^(vaz)$") or text:match("^(manager)$") then
 					local gps = redis:scard("botBOT-IDgroups")
